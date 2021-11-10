@@ -1,0 +1,38 @@
+<div class="mb-1">
+  <label for="date_time">Date / Time: (please enter in UTC +8 hrs)</label><br />
+  <% if (locals.date_time) { %>
+  <input
+    type="datetime-local"
+    name="date_time"
+    value="<%= locals.date_time %>"
+    max="<%= locals.date_time %>"
+    required
+  />
+  <% } else { %>
+  <input
+    type="datetime-local"
+    name="date_time"
+    max="<%= moment().format('YYYY-MM-DDTHH:mm') %>"
+    required
+  />
+  <% } %>
+</div>
+<div class="mb-1">
+  <label for="behaviour">Behaviour:</label><br />
+  <input
+    type="text"
+    name="behaviour"
+    value="<%= locals.behaviour %>"
+    required
+  />
+</div>
+<div class="mb-1">
+  <label for="flock_size">Flock size:</label><br />
+  <input
+    type="text"
+    value="<%= locals.flock_size %>"
+    name="flock_size"
+    required
+  />
+</div>
+<input type="submit" value="Submit" />

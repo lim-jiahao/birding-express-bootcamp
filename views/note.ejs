@@ -29,11 +29,11 @@
         </p>
       </div>
     </div>
-    <!-- <div class="d-flex align-items-start">
-      <form action="#" class="me-2">
+    <div class="d-flex align-items-start">
+      <form action="/note/<%= note.id %>/edit" class="me-2">
         <input type="submit" value="Edit" class="btn btn-warning text-light" />
       </form>
-      <form action="#" method="POST">
+      <form action="/note/<%= note.id %>/delete?_method=DELETE" method="POST">
         <input
           type="submit"
           value="Delete"
@@ -42,7 +42,7 @@
           title="Deleting is permanent. Please make sure you are deleting the right sighting."
         />
       </form>
-    </div> -->
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

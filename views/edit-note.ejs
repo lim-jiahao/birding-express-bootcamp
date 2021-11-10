@@ -21,11 +21,13 @@
       text-light
     "
   >
-    <%- include('common/nav', { page: '/note' }) %>
+    <%- include('common/nav') %>
     <div class="card bg-secondary mb-3" style="margin-top: 70px">
       <h6 class="card-header">New Note</h6>
       <div class="card-body">
-        <form action="/note" method="POST"><%- include('common/form') %></form>
+        <form action="/note/<%= locals.id %>/edit?_method=PUT" method="POST">
+          <%- include('common/form') %>
+        </form>
       </div>
     </div>
 

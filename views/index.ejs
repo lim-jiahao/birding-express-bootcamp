@@ -10,8 +10,6 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-
-    <title>🛸 UFO Sightings 👽</title>
   </head>
   <body class="text-center bg-dark text-light">
     <%- include('common/nav', { page: '/' }) %>
@@ -31,13 +29,13 @@
           <% notes.forEach((note) => { %>
           <tr>
             <th scope="row">
-              <a href="/note/<%= note.index %>">Note <%= note.index %></a>
+              <a href="/note/<%= note.id %>">Note <%= note.id %></a>
             </th>
             <td><%= new Date(note.date_time).toDateString() %></td>
             <td><%= note.behaviour %></td>
             <td><%= note.flock_size %></td>
             <td>
-              <form action="#" class="me-2">
+              <form action="/note/<%= note.id %>/edit" class="me-2">
                 <input
                   type="submit"
                   value="Edit"
@@ -49,7 +47,10 @@
               data-bs-toggle="tooltip"
               title="Deleting is permanent. Please make sure you are deleting the right note."
             >
-              <form action="#" method="POST">
+              <form
+                action="/note/<%= note.id %>/delete?_method=DELETE"
+                method="POST"
+              >
                 <input
                   type="submit"
                   value="Delete"
