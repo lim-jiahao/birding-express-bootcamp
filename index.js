@@ -124,15 +124,9 @@ const getNewNoteForm = (req, res) => {
 
 const createNewNote = (req, res) => {
   const args = Object.values(req.body);
-  pool.query('SELECT id FROM users WHERE username = $1', [req.cookies.userName], (err, result) => {
-    if (err) {
-      console.error('id query error', err);
-      return;
-    }
+  args.push(req.cookies.userName);
 
-    args.push(result.rows[0].id);
-  });
-  const sqlQuery = 'INSERT INTO notes (date_time, behaviour, flock_size, user_id) VALUES ($1, $2, $3, $4) RETURNING *';
+  const sqlQuery = 'INSERT INTO notes (date_time, behaviour, flock_size, username) VALUES ($1, $2, $3, $4) RETURNING *';
 
   pool.query(sqlQuery, args, (err, result) => {
     if (err) {

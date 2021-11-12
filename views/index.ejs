@@ -21,6 +21,7 @@
             <th scope="col">Date</th>
             <th scope="col">Behaviour</th>
             <th scope="col">Flock Size</th>
+            <th scope="col">Created By</th>
             <th scope="col"></th>
             <th scope="col"></th>
           </tr>
@@ -34,6 +35,7 @@
             <td><%= new Date(note.date_time).toDateString() %></td>
             <td><%= note.behaviour %></td>
             <td><%= note.flock_size %></td>
+            <td><%= note.username %></td>
             <td>
               <form action="/note/<%= note.id %>/edit" class="me-2">
                 <input
