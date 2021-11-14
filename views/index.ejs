@@ -36,6 +36,7 @@
             <td><%= note.behaviour %></td>
             <td><%= note.flock_size %></td>
             <td><%= note.username %></td>
+            <% if (note.username === userName) { %>
             <td>
               <form action="/note/<%= note.id %>/edit" class="me-2">
                 <input
@@ -60,6 +61,10 @@
                 />
               </form>
             </td>
+            <% } else { %>
+            <td></td>
+            <td></td>
+            <% } %>
           </tr>
           <% }); %>
         </tbody>

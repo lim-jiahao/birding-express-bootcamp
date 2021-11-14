@@ -87,9 +87,13 @@ const getEditForm = (req, res) => {
     }
 
     const data = result.rows[0];
-    data.date_time = moment(data.date_time).format('YYYY-MM-DDTHH:mm');
-    data.userName = req.cookies.userName;
-    res.render('edit-note', data);
+    if (req.cookies.userName === data.username) {
+      data.date_time = moment(data.date_time).format('YYYY-MM-DDTHH:mm');
+      data.userName = req.cookies.userName;
+      res.render('edit-note', data);
+    } else {
+      res.redirect(`/note/${id}`);
+    }
   });
 };
 
