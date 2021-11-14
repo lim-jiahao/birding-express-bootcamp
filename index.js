@@ -24,7 +24,7 @@ const getAllNotes = (req, res) => {
     return;
   }
 
-  const sqlQuery = 'SELECT * FROM notes ORDER BY id';
+  const sqlQuery = 'SELECT n.*, s.name AS species_name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id ORDER BY n.id';
 
   pool.query(sqlQuery, (err, result) => {
     if (err) {
@@ -45,7 +45,7 @@ const getNoteById = (req, res) => {
   }
 
   const { id } = req.params;
-  const sqlQuery = 'SELECT * FROM notes WHERE id = $1';
+  const sqlQuery = 'SELECT n.*, s.name AS species_name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id WHERE n.id = $1';
 
   pool.query(sqlQuery, [id], (err, result) => {
     if (err) {
@@ -90,7 +90,10 @@ const getEditForm = (req, res) => {
     if (req.cookies.userName === data.username) {
       data.date_time = moment(data.date_time).format('YYYY-MM-DDTHH:mm');
       data.userName = req.cookies.userName;
-      res.render('edit-note', data);
+      pool.query('SELECT * from species', (speError, speResult) => {
+        const categories = speResult.rows;
+        res.render('edit-note', { data, categories });
+      });
     } else {
       res.redirect(`/note/${id}`);
     }
@@ -102,9 +105,10 @@ const editNote = (req, res) => {
   const args = Object.values(req.body);
   args.push(id);
   const sqlQuery = `UPDATE notes SET date_time = $1,
-                                    behaviour = $2,
-                                    flock_size = $3
-                                  WHERE id = $4`;
+                                    species_id = $2,
+                                    behaviour = $3,
+                                    flock_size = $4
+                                  WHERE id = $5`;
 
   // eslint-disable-next-line no-unused-vars
   pool.query(sqlQuery, args, (err, result) => {
@@ -123,14 +127,17 @@ const getNewNoteForm = (req, res) => {
     return;
   }
 
-  res.render('new-note', { moment, userName: req.cookies.userName });
+  pool.query('SELECT * from species', (error, result) => {
+    const categories = result.rows;
+    res.render('new-note', { moment, userName: req.cookies.userName, categories });
+  });
 };
 
 const createNewNote = (req, res) => {
   const args = Object.values(req.body);
   args.push(req.cookies.userName);
 
-  const sqlQuery = 'INSERT INTO notes (date_time, behaviour, flock_size, username) VALUES ($1, $2, $3, $4) RETURNING *';
+  const sqlQuery = 'INSERT INTO notes (date_time, species_id, behaviour, flock_size, username) VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
   pool.query(sqlQuery, args, (err, result) => {
     if (err) {

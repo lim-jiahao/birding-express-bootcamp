@@ -25,7 +25,10 @@
     <div class="card bg-secondary mb-3" style="margin-top: 70px">
       <h6 class="card-header">New Note</h6>
       <div class="card-body">
-        <form action="/note/<%= locals.id %>/edit?_method=PUT" method="POST">
+        <form
+          action="/note/<%= locals.data.id %>/edit?_method=PUT"
+          method="POST"
+        >
           <%- include('common/form') %>
         </form>
       </div>

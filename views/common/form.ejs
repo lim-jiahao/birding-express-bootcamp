@@ -1,11 +1,11 @@
 <div class="mb-1">
   <label for="date_time">Date / Time: (please enter in UTC +8 hrs)</label><br />
-  <% if (locals.date_time) { %>
+  <% if (locals.data?.date_time) { %>
   <input
     type="datetime-local"
     name="date_time"
-    value="<%= locals.date_time %>"
-    max="<%= locals.date_time %>"
+    value="<%= locals.data.date_time %>"
+    max="<%= locals.data.date_time %>"
     required
   />
   <% } else { %>
@@ -18,11 +18,24 @@
   <% } %>
 </div>
 <div class="mb-1">
+  <label for="category_id">Category:</label><br />
+  <select name="category_id">
+    <% categories.forEach((category) => { %>
+    <option 
+    value="<%= category.id %>"
+    <%=locals.data?.species_id === category.id ? 'selected' : '' %>
+    >
+      <%= category.name %>
+    </option>
+    <% }); %>
+  </select>
+</div>
+<div class="mb-1">
   <label for="behaviour">Behaviour:</label><br />
   <input
     type="text"
     name="behaviour"
-    value="<%= locals.behaviour %>"
+    value="<%= locals.data?.behaviour %>"
     required
   />
 </div>
@@ -30,7 +43,7 @@
   <label for="flock_size">Flock size:</label><br />
   <input
     type="text"
-    value="<%= locals.flock_size %>"
+    value="<%= locals.data?.flock_size %>"
     name="flock_size"
     required
   />
