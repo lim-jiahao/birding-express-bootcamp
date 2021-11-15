@@ -1,4 +1,5 @@
 import express from 'express';
+import JSSHA from 'jssha';
 import database from '../utils/database.js';
 
 const router = express.Router();
@@ -9,7 +10,13 @@ const getSignupPage = (req, res) => {
 };
 
 const createNewUser = (req, res) => {
+  const shaObj = new JSSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+  shaObj.update(req.body.password);
+  const hashedPassword = shaObj.getHash('HEX');
+
   const args = Object.values(req.body);
+  args.pop();
+  args.push(hashedPassword);
   const sqlQuery = 'INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING *';
 
   database.query(sqlQuery, args, (err, result) => {

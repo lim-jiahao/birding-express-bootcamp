@@ -1,4 +1,5 @@
 import express from 'express';
+import JSSHA from 'jssha';
 import database from '../utils/database.js';
 
 const router = express.Router();
@@ -23,7 +24,12 @@ const authUser = (req, res) => {
     }
 
     const user = result.rows[0];
-    if (user.password === req.body.password) {
+
+    const shaObj = new JSSHA('SHA-512', 'TEXT', { encoding: 'UTF8' });
+    shaObj.update(req.body.password);
+    const hashedPassword = shaObj.getHash('HEX');
+
+    if (user.password === hashedPassword) {
       res.cookie('userName', user.username);
       res.cookie('loggedIn', true);
       res.redirect('/');
