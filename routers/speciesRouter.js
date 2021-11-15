@@ -1,15 +1,7 @@
 import express from 'express';
-import pg from 'pg';
+import database from '../utils/database.js';
 
 const router = express.Router();
-
-const { Pool } = pg;
-const pool = new Pool({
-  user: 'limjiahao',
-  host: 'localhost',
-  database: 'bird_watching',
-  port: 5432,
-});
 
 const getNewSpeciesForm = (req, res) => {
   if (!req.cookies.loggedIn) {
@@ -25,7 +17,7 @@ const addNewSpecies = (req, res) => {
 
   const sqlQuery = 'INSERT INTO species (name, scientific_name) VALUES ($1, $2) RETURNING *';
 
-  pool.query(sqlQuery, args, (err, result) => {
+  database.query(sqlQuery, args, (err, result) => {
     if (err) {
       console.log('error', err);
       res.status(500).send(err);
@@ -45,7 +37,7 @@ const getSpeciesById = (req, res) => {
   const { id } = req.params;
   const sqlQuery = 'SELECT * FROM species LEFT JOIN notes ON notes.species_id = species.id WHERE species.id = $1 ORDER BY notes.id';
 
-  pool.query(sqlQuery, [id], (err, result) => {
+  database.query(sqlQuery, [id], (err, result) => {
     if (err) {
       console.error('error', err);
       res.status(500).send(err);
@@ -74,7 +66,7 @@ const getEditSpeciesForm = (req, res) => {
   const { id } = req.params;
   const sqlQuery = 'SELECT * FROM species WHERE id = $1';
 
-  pool.query(sqlQuery, [id], (err, result) => {
+  database.query(sqlQuery, [id], (err, result) => {
     if (err) {
       console.error('error', err);
       res.status(500).send(err);
@@ -87,7 +79,7 @@ const getEditSpeciesForm = (req, res) => {
     }
 
     const data = result.rows[0];
-    res.render('edit-species', { data });
+    res.render('edit-species', { data, userName: req.cookies.userName });
   });
 };
 
@@ -100,7 +92,7 @@ const editSpecies = (req, res) => {
                                   WHERE id = $3`;
 
   // eslint-disable-next-line no-unused-vars
-  pool.query(sqlQuery, args, (err, result) => {
+  database.query(sqlQuery, args, (err, result) => {
     if (err) {
       console.log('error', err);
       res.status(500).send(err);

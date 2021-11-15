@@ -28,15 +28,6 @@
       <form action="/species/<%= species.species_id %>/edit" class="me-2">
         <input type="submit" value="Edit" class="btn btn-warning text-light" />
       </form>
-      <form action="#" method="POST">
-        <input
-          type="submit"
-          value="Delete"
-          class="btn btn-danger text-light"
-          data-bs-toggle="tooltip"
-          title="Deleting is permanent. Please make sure you are deleting the right sighting."
-        />
-      </form>
     </div>
 
     <%- include('common/table') %>
