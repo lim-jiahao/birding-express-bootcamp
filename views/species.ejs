@@ -18,30 +18,17 @@
     <div class="card w-100 mb-4 bg-secondary" style="margin-top: 70px">
       <h5 class="card-header">Information</h5>
       <div class="card-body">
+        <p class="card-text"><strong>Name:</strong> <%= species.name %></p>
         <p class="card-text">
-          <strong>Date / Time:</strong> <%= note.date_time %>
-        </p>
-        <p class="card-text">
-          <strong>Species:</strong>
-          <a href="/species/<%= note.species_id %>"><%= note.name %></a>
-        </p>
-        <p class="card-text">
-          <strong>Behaviour:</strong> <%= note.behaviour %>
-        </p>
-        <p class="card-text">
-          <strong>Flock size:</strong> <%= note.flock_size %>
-        </p>
-        <p class="card-text">
-          <strong>Created By:</strong> <%= note.username %>
+          <strong>Scientific Name:</strong> <%= species.scientific_name %>
         </p>
       </div>
     </div>
-    <% if (note.username === userName) { %>
     <div class="d-flex align-items-start">
-      <form action="/note/<%= note.id %>/edit" class="me-2">
+      <form action="/species/<%= species.species_id %>/edit" class="me-2">
         <input type="submit" value="Edit" class="btn btn-warning text-light" />
       </form>
-      <form action="/note/<%= note.id %>/delete?_method=DELETE" method="POST">
+      <form action="#" method="POST">
         <input
           type="submit"
           value="Delete"
@@ -51,7 +38,8 @@
         />
       </form>
     </div>
-    <% } %>
+
+    <%- include('common/table') %>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

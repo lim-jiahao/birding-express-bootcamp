@@ -3,6 +3,7 @@ import pg from 'pg';
 import cookieParser from 'cookie-parser';
 import moment from 'moment';
 import methodOverride from 'method-override';
+import speciesRouter from './routes/species.js';
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -24,7 +25,7 @@ const getAllNotes = (req, res) => {
     return;
   }
 
-  const sqlQuery = 'SELECT n.*, s.name AS species_name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id ORDER BY n.id';
+  const sqlQuery = 'SELECT n.*, s.name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id ORDER BY n.id';
 
   pool.query(sqlQuery, (err, result) => {
     if (err) {
@@ -45,7 +46,7 @@ const getNoteById = (req, res) => {
   }
 
   const { id } = req.params;
-  const sqlQuery = 'SELECT n.*, s.name AS species_name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id WHERE n.id = $1';
+  const sqlQuery = 'SELECT n.*, s.name FROM notes AS n INNER JOIN species AS s ON n.species_id = s.id WHERE n.id = $1';
 
   pool.query(sqlQuery, [id], (err, result) => {
     if (err) {
@@ -252,5 +253,7 @@ app
   .post(createNewUser);
 
 app.get('/logout', logoutUser);
+
+app.use('/species', speciesRouter);
 
 app.listen(3004);

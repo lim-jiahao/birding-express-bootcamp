@@ -14,63 +14,7 @@
   <body class="text-center bg-dark text-light">
     <%- include('common/nav', { page: '/' }) %>
     <div class="px-md-5" style="margin-top: 70px">
-      <table class="table table-dark table-striped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Note</th>
-            <th scope="col">Date</th>
-            <th scope="col">Species</th>
-            <th scope="col">Behaviour</th>
-            <th scope="col">Flock Size</th>
-            <th scope="col">Created By</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% notes.forEach((note) => { %>
-          <tr>
-            <th scope="row">
-              <a href="/note/<%= note.id %>">Note <%= note.id %></a>
-            </th>
-            <td><%= new Date(note.date_time).toDateString() %></td>
-            <td><%= note.species_name %></td>
-            <td><%= note.behaviour %></td>
-            <td><%= note.flock_size %></td>
-            <td><%= note.username %></td>
-            <% if (note.username === userName) { %>
-            <td>
-              <form action="/note/<%= note.id %>/edit" class="me-2">
-                <input
-                  type="submit"
-                  value="Edit"
-                  class="btn btn-warning btn-sm text-light"
-                />
-              </form>
-            </td>
-            <td
-              data-bs-toggle="tooltip"
-              title="Deleting is permanent. Please make sure you are deleting the right note."
-            >
-              <form
-                action="/note/<%= note.id %>/delete?_method=DELETE"
-                method="POST"
-              >
-                <input
-                  type="submit"
-                  value="Delete"
-                  class="btn btn-danger btn-sm text-light"
-                />
-              </form>
-            </td>
-            <% } else { %>
-            <td></td>
-            <td></td>
-            <% } %>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
+      <%- include('common/table') %>
     </div>
 
     <script

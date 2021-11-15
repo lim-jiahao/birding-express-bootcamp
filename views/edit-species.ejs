@@ -23,13 +23,31 @@
   >
     <%- include('common/nav') %>
     <div class="card bg-secondary mb-3" style="margin-top: 70px">
-      <h6 class="card-header">Edit Note</h6>
+      <h6 class="card-header">Edit Species</h6>
       <div class="card-body">
         <form
-          action="/note/<%= locals.data.id %>/edit?_method=PUT"
+          action="/species/<%= locals.data.id %>/edit?_method=PUT"
           method="POST"
         >
-          <%- include('common/form') %>
+          <div class="mb-1">
+            <label for="name">Species Name:</label><br />
+            <input
+              type="text"
+              name="name"
+              value="<%= locals.data.name %>"
+              required
+            />
+          </div>
+          <div class="mb-1">
+            <label for="sci_name">Scientific Name:</label><br />
+            <input
+              type="text"
+              name="sci_name"
+              value="<%= locals.data.scientific_name %>"
+              required
+            />
+          </div>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     </div>
