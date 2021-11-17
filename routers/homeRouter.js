@@ -19,7 +19,16 @@ const getAllNotes = (req, res) => {
     }
 
     const notes = result.rows;
-    res.render('index', { notes, userName: req.cookies.userName });
+    const sqlQuery2 = 'SELECT note_id, behaviour FROM behaviours INNER JOIN notes_behaviours ON behaviours.id = notes_behaviours.behaviour_id';
+    database.query(sqlQuery2, (behaviourErr, behaviourRes) => {
+      if (behaviourErr) {
+        console.error('error', err);
+        res.status(500).send(err);
+        return;
+      }
+      const behaviours = behaviourRes.rows;
+      res.render('index', { notes, userName: req.cookies.userName, behaviours });
+    });
   });
 };
 

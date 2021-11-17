@@ -21,7 +21,10 @@
       <td>
         <a href="/species/<%= note.species_id %>"><%= note.name %></a>
       </td>
-      <td><%= note.behaviour %></td>
+      <td>
+        <%= behaviours.reduce((acc, cur) => cur.note_id === note.id ? `${acc},
+        ${cur.behaviour}` : acc, '').slice(2) %>
+      </td>
       <td><%= note.flock_size %></td>
       <td><%= note.username %></td>
       <% if (note.username === userName) { %>

@@ -18,7 +18,7 @@
   <% } %>
 </div>
 <div class="mb-1">
-  <label for="category_id">Category:</label><br />
+  <label for="category_id">Species:</label><br />
   <select name="category_id">
     <% categories.forEach((category) => { %>
     <option 
@@ -32,12 +32,14 @@
 </div>
 <div class="mb-1">
   <label for="behaviour">Behaviour:</label><br />
-  <input
-    type="text"
-    name="behaviour"
-    value="<%= locals.data?.behaviour %>"
-    required
-  />
+  <% behaviours.forEach((behaviour) => { %>
+    <label>
+      <input type="checkbox" name="behaviour_ids" value="<%= behaviour.id %>"
+      <%=locals.behaviourIDs?.includes(behaviour.id) ? 'checked' : '' %> />
+      <%= behaviour.behaviour %>
+    </label>
+    <br />
+  <% }) %>
 </div>
 <div class="mb-1">
   <label for="flock_size">Flock size:</label><br />

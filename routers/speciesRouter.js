@@ -53,7 +53,18 @@ const getSpeciesById = (req, res) => {
     let notes;
     if (result.rows[0].date_time) notes = result.rows;
     else notes = [];
-    res.render('species', { species, notes, userName: req.cookies.userName });
+    const sqlQuery2 = 'SELECT note_id, behaviour FROM behaviours INNER JOIN notes_behaviours ON behaviours.id = notes_behaviours.behaviour_id';
+    database.query(sqlQuery2, (behaviourErr, behaviourRes) => {
+      if (behaviourErr) {
+        console.error('error', err);
+        res.status(500).send(err);
+        return;
+      }
+      const behaviours = behaviourRes.rows;
+      res.render('species', {
+        species, notes, userName: req.cookies.userName, behaviours,
+      });
+    });
   });
 };
 

@@ -26,7 +26,8 @@
           <a href="/species/<%= note.species_id %>"><%= note.name %></a>
         </p>
         <p class="card-text">
-          <strong>Behaviour:</strong> <%= note.behaviour %>
+          <strong>Behaviour:</strong> <%= behaviours.reduce((acc, cur) =>
+          `${acc}, ${cur.behaviour}`, '').slice(2) %>
         </p>
         <p class="card-text">
           <strong>Flock size:</strong> <%= note.flock_size %>
@@ -51,7 +52,23 @@
         />
       </form>
     </div>
-    <% } %>
+    <% } %> <% if (comments.length > 0) { %>
+    <h5 class="align-self-start">Comments</h5>
+    <% } %> <% comments.forEach((comment, index) => { %>
+    <div class="card w-100 mb-4 bg-secondary">
+      <h5 class="card-header"><%= `#${index+1} ${comment.username}` %></h5>
+      <div class="card-body">
+        <p class="card-text"><%= comment.comment %></p>
+      </div>
+    </div>
+    <% }) %>
+    <form action="/note/<%= note.id %>/comment" method="POST">
+      <div class="mb-1">
+        <label for="comment">Leave a comment:</label><br />
+        <textarea name="comment" rows="4" cols="75" required></textarea>
+      </div>
+      <input type="submit" value="Submit" />
+    </form>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
